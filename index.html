@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Viha Kochar — Portfolio</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Italiana&family=Kapakana&display=swap" rel="stylesheet">
+
+  
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+
+  <style>
+    :root{
+      --bg: #FFFEEF;
+      --accent: rgba(157,61,61,0.8); 
+      --text: #000;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);}
+
+    header{
+      position:fixed; top:0; left:0; width:100%;
+      background:var(--bg); padding:1.2rem 4rem;
+      display:flex; align-items:center; justify-content:flex-start;
+      border-bottom:1px solid rgba(0,0,0,0.12); z-index:2000;
+    }
+    header nav{display:flex; gap:2rem;}
+    header nav a{ text-decoration:none; color:var(--text); font-size:1rem; }
+    header nav a:hover{ opacity:.6; }
+    .nav-name{
+      position:absolute; right:4rem; font-weight:600; font-size:1.15rem;font-family:'Italiana';
+      text-decoration:none; color:var(--text);
+    }
+
+    .circle{ position:absolute; background:var(--accent); border-radius:50%; z-index:-1; }
+
+    section{
+      min-height:100vh;
+      padding:10rem 6rem;
+      position:relative;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+    }
+
+    .project-page{
+      display:none;
+      min-height:100vh;
+      padding:10rem 6rem;
+      position:relative;
+    }
+    .project-page:target{ display:block; }
+
+    .project-page:target ~ #home,
+    .project-page:target ~ #about,
+    .project-page:target ~ #experience,
+    .project-page:target ~ #projects,
+    .project-page:target ~ #contact{
+      display:none;
+    }
+
+    .back-btn{
+      position:absolute; left:2rem; top:5rem; font-size:3rem; text-decoration:none; color:var(--text);
+      z-index:3000;
+    }
+
+    .project-title{ font-family:'Italiana'; font-size:3.2rem; margin-bottom:1rem; }
+    .project-text{ max-width:760px; font-size:1.05rem; line-height:1.8; margin-bottom:1.4rem; }
+    .project-img-row{ display:flex; gap:1.2rem; flex-wrap:wrap; margin-top:1.2rem; }
+    .project-img-row img{ width:320px; border-radius:8px; display:block; }
+
+    
+    #home { align-items:center; text-align:center; }
+    #home .circle.one{ width:200px; height:200px; top:28%; left:25%; }
+    #home .circle.two{ width:90px; height:90px; top:70%; left:28%; }
+    #home .circle.three{ width:70px; height:70px; top:20%; right:25%; }
+    #home .circle.four{ width:130px; height:130px; bottom:35%; right:27%; }
+
+    .portfolio-title{ font-size:9rem; line-height:0.9; }
+    .portfolio-title .port{ font-family:'Italiana'; display:inline-block; margin-right:.3rem; }
+    .portfolio-title .folio{ font-family:'Kapakana'; display:inline-block; }
+
+    #about .circle.one{ width:160px; height:160px; top:9%; left:2.5%; }
+    #about .circle.two{ width:150px; height:150px; bottom:30%; right:28%; }
+
+    .about-text h1{ font-family:'Italiana'; font-size:3.4rem; margin-bottom:.4rem; }
+    .about-text h3{ margin-bottom:1rem; font-weight:400; }
+    .about-text p{ margin-bottom:1.2rem; font-size:1.05rem; line-height:1.7; color:var(--text); }
+
+    .about-image{
+      width:100%;
+      text-align:center;
+      position:relative;
+    }
+    .about-image img{ width:250px; height:250px; border-radius:50%; object-fit:cover; display:block; margin:0 auto; }
+    
+
+    .curved-text{
+      position:absolute;
+      top:50%;
+      left:50%;
+      width:340px;
+      height:340px;
+      transform:translate(-50%, -50%);
+      pointer-events:none;
+    }
+
+    #experience .circle.one{ width:160px; height:160px; top:15%; left:3%; }
+    #experience .circle.two{ width:140px; height:140px; bottom:25%; right:38%; }
+    #experience h2{ font-family:'Italiana'; font-size:3.2rem; margin-bottom:2rem; }
+
+    #projects h2{ font-family:'Italiana'; font-size:2.8rem; margin-bottom:1.2rem; }
+#projects {
+  padding-top: 8rem;
+  padding-bottom: 4rem;
+}
+    .project-card img{
+      width:100%;
+      height:220px;
+      aspect-ratio:1/1;
+      object-fit:contain;
+      background: rgba(157,61,61,0.8);
+      border-radius:8px;
+      cursor:pointer;
+    }
+
+    .project-card h3{
+      font-family:'Italiana';
+      margin-top:1rem;
+      font-size:1.05rem;
+      letter-spacing:.6px;
+    }
+
+     .exptext{
+       font-size: 2.5rem; 
+      }
+
+    #contact .circle.one{ width:160px; height:160px; top:8%; left:2%; }
+    #contact .circle.four{ width:90px; height:90px; bottom:70%; right:35%; }
+    #contact h2{ font-family:'Italiana'; font-size:3rem; margin-bottom:2rem; }
+
+    footer{ text-align:center; padding:2rem 0; font-size:.95rem; color:rgba(0,0,0,0.7); }
+
+  
+.circle {
+  opacity: 0;
+  animation: circlePop 1.8s ease-out forwards;
+  animation-delay: 0.4s;
+}
+
+@keyframes circlePop {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.portfolio-title span {
+  opacity: 0;
+  display: inline-block;
+  transform: translateY(20px);
+  animation: titleFade 1.6s forwards ease-out;
+}
+
+.portfolio-title .port {
+  animation-delay: 0.25s;
+}
+
+.portfolio-title .folio {
+  animation-delay: 1s;
+}
+
+@keyframes titleFade {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+    @media (max-width:980px){
+      .portfolio-title{ font-size:6rem; }
+      header{ padding:1rem 2rem; }
+      .nav-name{ right:2rem; }
+      section{ padding:8rem 3rem; }
+    }
+
+    @media (max-width:520px){
+      .portfolio-title{ font-size:4.5rem; }
+      .about-image img{ width:240px; height:240px; }
+      .project-title{ font-size:2rem; }
+      .back-btn{
+        top:5rem;
+        left:2rem;
+        font-size:2.2rem;
+      }
+
+    }
+
+    .contact-input {
+  background: rgba(157, 61, 61, 0.10); 
+  border: 1px solid rgba(157, 61, 61, 0.25);
+  border-radius: 8px;
+}
+
+.contact-input:focus {
+  border-color: rgba(157,61,61,0.6);
+  box-shadow: none;
+}
+
+.contact-message {
+  background: rgba(157, 61, 61, 0.15);
+  border: 1px solid rgba(157,61,61,0.25);
+  border-radius: 8px;
+}
+
+.contact-message:focus {
+  border-color: rgba(157,61,61,0.6);
+  box-shadow: none;
+}
+
+  </style>
+</head>
+
+<body>
+
+  
+  <header>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a href="#home" class="nav-name">Viha Kochar</a>
+  </header>
+
+  <section id="project1" class="project-page">
+    <a href="#projects" class="back-btn">&#8249;</a>
+    <div class="circle" style="width:150px;height:150px;top:9%;left:2.3%;"></div>
+    <div class="circle" style="width:700px;height:700px;top:9.5%;left:70%;"></div>
+
+    <h1 class="project-title">THREADS OF CONNECTION</h1>
+    <p class="project-text">
+      These prints blend the bold lines of the Bandra-Worli Sea Link with the delicate heritage of Warli art, reflecting Mumbai's quiet balance of tradition and modernity. To me, the Sea Link speaks of bridges—both real and personal—built while finding my place in a new city.
+Printed on pillows, they carry a sense of comfort and belonging, a reminder to embrace the contrasts and connections that make Mumbai feel like home.
+    </p>
+
+    <div class="project-img-row">
+      <img src="images /w1.png" alt="Threads work 1">
+      <img src="images /w2.png" alt="Threads work 2">
+    </div>
+  </section>
+
+  <section id="project2" class="project-page">
+    <a href="#projects" class="back-btn">&#8249;</a>
+    <div class="circle" style="width:150px;height:150px;top:11%;left:3%;"></div>
+      <div class="circle" style="width:700px;height:700px;top:9.5%;left:70%;"></div>
+
+    <h1 class="project-title">AANKHON KA TAARA</h1>
+    <p class="project-text">
+      Designed a series of eye-catching advertisements for Poshan Skincare, focusing on their eye serum. The visuals highlighted the product's premium quality and gentle care, combining clean layouts with soothing colour palettes to convey trust and effectiveness.
+    </p>
+
+    <div class="project-img-row">
+      <img src="images /akt1.png" alt="Aankhon 1">
+      <img src="images /akt2.png" alt="Aankhon 2">
+      <img src="images /akt3.png" alt="Aankhon 3">
+    </div>
+  </section>
+
+  <section id="project3" class="project-page">
+    <a href="#projects" class="back-btn">&#8249;</a>
+    <div class="circle" style="width:150px;height:150px;top:10%;left:3%;"></div>
+      <div class="circle" style="width:700px;height:700px;top:9.5%;left:70%;"></div>
+
+    <h1 class="project-title">SANDS OF FAITH</h1>
+    <p class="project-text">
+     A hand-painted board game set in a magical desert, where shifting sands mirror life's balance between challenge and opportunity. Featuring three unique sets of playing cards and a water token system, the game's objective is to reach the end point with 20 water points.
+Rooted in the spirit of Impressionism, it invites players to lose themselves in fleeting beauty, layered storytelling, and the joy of creative exploration.
+    </p>
+
+    <div class="project-img-row">
+      <img src="images /time1.png" alt="Sands 1">
+      <img src="images /time2.png" alt="Sands 2">
+      <img src="images /time3.png" alt="Sands 3">
+    </div>
+  </section>
+
+  <section id="project4" class="project-page">
+    <a href="#projects" class="back-btn">&#8249;</a>
+    <div class="circle" style="width:150px;height:150px;top:10%;left:3%;"></div>
+      <div class="circle" style="width:700px;height:700px;top:9.5%;left:70%;"></div>
+
+    <h1 class="project-title">DRAMA LLAMA PACKAGING</h1>
+    <p class="project-text">
+     A playful coffee packaging design that turns a simple unboxing into a moment of discovery. With its twistable, interactive form, it engages the senses, sparking curiosity and delight while capturing the brand's quirky, spirited personality.
+    </p>
+
+    <div class="project-img-row">
+      <img src="images /pack1.png" alt="Pack 1">
+      <img src="images /pack3.png" alt="Pack 3">
+      <img src="images /pack4.png" alt="Pack 4">
+    </div>
+  </section>
+
+
+  <section id="home">
+    <div class="circle one"></div>
+    <div class="circle two"></div>
+    <div class="circle three"></div>
+    <div class="circle four"></div>
+
+    <h1 class="portfolio-title">
+      <span class="port">Port</span><span class="folio">folio</span>
+    </h1>
+  </section>
+
+  <section id="about" >
+    <div class="circle one"></div>
+    <div class="circle two"></div>
+
+    <div class="container">
+      <div class="row align-items-center gy-5">
+
+        <div class="col-lg-7 col-md-12 about-text">
+          <h1>Visual Designer</h1>
+          <h3>Artist | Graphic Designer</h3>
+
+          <p>Hello! I'm Viha Kochar, a design student from Coonoor who loves bringing ideas to life through thoughtful, compelling visuals. Creativity is my language, and I thrive on turning concepts into designs that resonate. With strong communication, teamwork, and organizational skills, I bring both imagination and structure to my work. Diligent and detail-oriented, I ensure every project is not just visually engaging but also meaningful and well-executed.</p>
+
+          <h2>Interests</h2>
+          <p>Painting | Calligraphy | Travel | Theatre | Dance | Cooking</p>
+
+          <h2>Education</h2>
+          <p>Atlas Skilltech University<br>B.Des 2024–28</p>
+        </div>
+
+        <div class="col-lg-5 col-md-12 d-flex justify-content-center">
+          <div class="about-image">
+            <img src="images /me.jpg" alt="Viha Kochar portrait">
+
+            <svg class="curved-text" viewBox="0 0 340 340">
+              <defs>
+                <path id="circlePath"
+                  d="M170,170
+                    m -140,0
+                    a 140,140 0 1,1 280,0
+                    a 140,140 0 1,1 -280,0" />
+              </defs>
+
+              <text font-size="22" fill="#000" font-family="Italiana">
+                <textPath href="#circlePath" startOffset="50%" text-anchor="middle">
+                  • VIHA KOCHAR • VIHA KOCHAR • VIHA KOCHAR •
+                </textPath>
+              </text>
+            </svg>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="experience" >
+    <div class="circle one"></div>
+    <div class="circle two"></div>
+
+    <div class="container">
+      <h2>Experience</h2>
+      <div class="row">
+        <div class="col-lg-10 col-md-12">
+<div class="exptext"> <strong>GO CHIC</strong> . Creative strategist . Sales . Marketing<br>
+            <strong>DRAMA LLAMA BEV</strong> . Creative Producer<br>
+            <strong>POSHAN SKINCARE</strong> . Design Intern<br>
+            <strong>BROOKLANE TEA</strong> . Creative Assistant<br>
+            <strong>PSTEA INDUSTRIES</strong> . Sales . Marketing<br>
+            <strong>FREELANCE GRAPHIC DESIGNER</strong></div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="projects" class="fade-section">
+    <div class="circle one"></div>
+    <div class="circle two"></div>
+
+    <div class="container">
+      <h2>Projects</h2>
+
+      <div class="row g-4 mt-3">
+
+        <div class="col-lg-6 col-md-6 col-sm-12 project-card text-center">
+          <a href="#project1"><img src="images /w1.png" alt="Threads of Connection"></a>
+          <h3><a href="#project1" style="text-decoration:none;color:inherit;">THREADS OF CONNECTION</a></h3>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-12 project-card text-center">
+          <a href="#project2"><img src="images /akt1.png" alt="Aankhon Ka Taara"></a>
+          <h3><a href="#project2" style="text-decoration:none;color:inherit;">AANKHON KA TAARA</a></h3>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-12 project-card text-center">
+          <a href="#project3"><img src="images /time1.png" alt="Sands of Faith"></a>
+          <h3><a href="#project3" style="text-decoration:none;color:inherit;">SANDS OF FAITH</a></h3>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-12 project-card text-center">
+          <a href="#project4"><img src="images /pack1.png" alt="Drama Llama Packaging"></a>
+          <h3><a href="#project4" style="text-decoration:none;color:inherit;">DRAMA LLAMA PACKAGING</a></h3>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <section id="contact" >
+    <div class="circle one"></div>
+    <div class="circle four"></div>
+
+   <div class="container">
+
+  <h2>Contact</h2>
+
+  <!-- Your contact info first -->
+  <div class="row gy-3 mb-5">
+
+    <div class="col-lg-6 col-md-12">
+      <h3>EMAIL</h3>
+      <p>vihakochar@gmail.com<br>Best way to keep it profesh!</p>
+    </div>
+
+    <div class="col-lg-6 col-md-12">
+      <h3>INSTAGRAM</h3>
+      <p>@Vihakochar21<br>Active reel watcher and inspo gatherer!</p>
+    </div>
+
+    <div class="col-lg-6 col-md-12">
+      <h3>PHONE</h3>
+      <p>+91 9176007554</p>
+    </div>
+
+  </div>
+
+  <!-- THEN your form below -->
+  <form class="mt-4">
+
+    <div class="row">
+      <div class="col-lg-6 col-md-12 mb-3">
+        <label class="form-label">Name</label>
+        <input type="text" class="form-control contact-input" placeholder="Your Name">
+      </div>
+
+      <div class="col-lg-6 col-md-12 mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control contact-input" placeholder="name@example.com">
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Message</label>
+      <textarea class="form-control contact-message" rows="4" placeholder="Write your message here..."></textarea>
+    </div>
+
+  </form>
+
+</div>
+
+
+  <footer>
+    <p>&copy; 2025 Viha Kochar — All Rights Reserved</p>
+  </footer>
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+  </script>
+
+</body>
+</html>
